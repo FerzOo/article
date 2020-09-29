@@ -4,6 +4,7 @@ import ir.maktab39.*;
 import ir.maktab39.entities.Article;
 import ir.maktab39.entities.Role;
 import ir.maktab39.entities.User;
+import ir.maktab39.entities.embeddables.Address;
 import ir.maktab39.exceptions.NotFoundException;
 import ir.maktab39.exceptions.UniqueConstraintException;
 import ir.maktab39.repositories.user.UserRepo;
@@ -145,12 +146,29 @@ public class MainUI extends BaseUI {
         System.out.println("birthday(dd/MM/yyyy):");
         Date birthday = new SimpleDateFormat("dd/MM/yyyy")
                 .parse(scanner.next());
+
+        System.out.println("country:");
+        String country = scanner.next();
+        System.out.println("city:");
+        String city = scanner.next();
+        System.out.println("street:");
+        String street = scanner.next();
+        System.out.println("postcode:");
+        String postcode = scanner.next();
+        Address address = new Address();
+        address.setCountry(country);
+        address.setCity(city);
+        address.setStreet(street);
+        address.setPostcode(postcode);
+
+        Role writer = roleService.getRole("writer");
+
         User user = new User();
         user.setUsername(username);
         user.setPassword(nationalCode);
         user.setNationalCode(nationalCode);
         user.setBirthday(birthday);
-        Role writer = roleService.getRole("writer");
+        user.setAddress(address);
         user.setRole(writer);
         userService.save(user);
     }

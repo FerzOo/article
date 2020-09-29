@@ -1,6 +1,7 @@
 package ir.maktab39.entities;
 
 import ir.maktab39.base.entity.BaseEntity;
+import ir.maktab39.entities.embeddables.Address;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +15,8 @@ public class User extends BaseEntity<Long> {
     private Date birthday;
     @Column(nullable = false)
     private String password;
+    @Embedded
+    private Address address;
     @ManyToOne(cascade = CascadeType.ALL)
     private Role role;
 
@@ -23,7 +26,8 @@ public class User extends BaseEntity<Long> {
                 "\n" + "username=" + username +
                 "\n" + "nationalCode=" + nationalCode +
                 "\n" + "birthday=" + birthday +
-                "\n" + "author=" + (role != null ? role.getTitle() : "");
+                "\n" + "author=" + (role != null ? role.getTitle() : "") +
+                "\n" + "address=" + address;
     }
 
     public String getUsername() {
@@ -56,6 +60,14 @@ public class User extends BaseEntity<Long> {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Role getRole() {
