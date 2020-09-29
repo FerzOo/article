@@ -52,8 +52,8 @@ public class BaseUI {
         return articleList;
     }
 
-    public <T extends BaseEntity> void showEntity(List<T> list) {
-        for (T element : list) {
+    public void showEntity(List list) {
+        for (Object element : list) {
             System.out.println(element);
             System.out.println("----------------");
         }
@@ -61,12 +61,12 @@ public class BaseUI {
 
     //i need map for ui operations
     protected <PK extends Serializable, T extends BaseEntity<PK>> Map<PK, T> listToMap
-            (List<T> list) {
+    (List<T> list) {
         return list.stream()
                 .collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
     }
 
-    protected void createCategory(){
+    protected void createCategory() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("category title:");
         String title = scanner.nextLine();
@@ -79,7 +79,7 @@ public class BaseUI {
         System.out.println("category inserted");
     }
 
-    protected void createTag(){
+    protected void createTag() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("tag title:");
         String title = scanner.nextLine();

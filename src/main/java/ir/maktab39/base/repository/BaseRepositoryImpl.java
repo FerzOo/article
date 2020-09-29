@@ -7,6 +7,10 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public abstract class BaseRepositoryImpl<PK extends Serializable, E>
         implements BaseRepository<PK, E> {
@@ -88,15 +92,33 @@ public abstract class BaseRepositoryImpl<PK extends Serializable, E>
                 entityManager.merge(e);
                 commit();
             }
-        }catch (Exception e1){
+        } catch (Exception e1) {
             rollback();
         }
     }
 
     @Override
     public List<E> findAll() {
-        Query query = getEntityManager().createQuery
-                ("select o from " + getEntityClass().getSimpleName() + " o");
-        return query.getResultList();
+        return findAll0();
+    }
+
+    @Override
+    public List<E> findAll(Predicate<E> predicate) {
+        List<E> list = findAll0();
+        return list.stream().filter(predicate)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List findAll(Function<E, ?> function) {
+        List<E> list = findAll0();
+        return list.stream().map(function)
+                .collect(Collectors.toList());
+    }
+
+    private List<E> findAll0() {
+        return getEntityManager().createQuery
+                ("select o from " + getEntityClass().getSimpleName() + " o")
+                .getResultList();
     }
 }

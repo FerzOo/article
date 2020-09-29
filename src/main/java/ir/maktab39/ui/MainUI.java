@@ -1,6 +1,7 @@
 package ir.maktab39.ui;
 
 import ir.maktab39.*;
+import ir.maktab39.dto.UserInfo;
 import ir.maktab39.entities.Article;
 import ir.maktab39.entities.Role;
 import ir.maktab39.entities.User;
@@ -31,6 +32,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class MainUI extends BaseUI {
 
@@ -83,6 +86,8 @@ public class MainUI extends BaseUI {
                 System.out.println("1)login");
                 System.out.println("2)register");
                 System.out.println("3)view articles");
+                System.out.println("4)users info");
+                System.out.println("5)admin users");
                 command = scanner.nextInt();
                 switch (command) {
                     case 1:
@@ -94,11 +99,35 @@ public class MainUI extends BaseUI {
                     case 3:
                         showAndReturnArticlesDependsOnPublication(true);
                         break;
+                    case 4:
+                        Function<User, UserInfo> function =
+                                (a) -> {
+                                    UserInfo userInfo = new UserInfo();
+                                    userInfo.setUsername(a.getUsername());
+                                    return userInfo;
+                                };
+                        getUsersInfo(function);
+                        break;
+                    case 5:
+                        Predicate<User> predicate =
+                                (a) -> a.getRole().getTitle().equals("admin");
+                        showAdminUsers(predicate);
+                        break;
                 }
             } catch (Exception e) {
                 ErrorHandler.showMessage(e);
             }
         }
+    }
+
+    private void showAdminUsers(Predicate<User> predicate) {
+        List<User> list = userService.findAll(predicate);
+        showEntity(list);
+    }
+
+    private void getUsersInfo(Function<User, UserInfo> function) {
+        List<UserInfo> list = userService.findAll(function);
+        showEntity(list);
     }
 
 

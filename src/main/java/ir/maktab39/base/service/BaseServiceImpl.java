@@ -7,6 +7,8 @@ import ir.maktab39.base.repository.BaseRepository;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class BaseServiceImpl
         <PK extends Serializable, E, Repository extends BaseRepository<PK, E>>
@@ -48,4 +50,16 @@ public class BaseServiceImpl
     public List<E> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public List<E> findAll(Predicate<E> predicate) {
+        return repository.findAll(predicate);
+    }
+
+    @Override
+    public List findAll(Function<E, ?> function) {
+        return repository.findAll(function);
+    }
+
+
 }
