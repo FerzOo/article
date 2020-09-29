@@ -7,8 +7,9 @@ import ir.maktab39.repositories.role.RoleRepoImpl;
 
 public class RoleServiceImpl
         extends BaseServiceImpl<Long, Role, RoleRepo> implements RoleService {
+
     public RoleServiceImpl() {
-        super(RoleRepoImpl.class, Role.class);
+        super(RoleRepoImpl.class);
     }
 
     @Override

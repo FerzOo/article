@@ -10,7 +10,7 @@ public class UserServiceImpl
         extends BaseServiceImpl<Long, User, UserRepo> implements UserService {
 
     public UserServiceImpl() {
-        super(UserRepoImpl.class, User.class);
+        super(UserRepoImpl.class);
     }
 
     public User getUser(String username, String password) {

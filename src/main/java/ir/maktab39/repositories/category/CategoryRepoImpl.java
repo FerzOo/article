@@ -7,7 +7,8 @@ import javax.persistence.EntityManager;
 
 public class CategoryRepoImpl extends BaseRepositoryImpl<Long, Category> implements CategoryRepo {
 
-    public CategoryRepoImpl(Class<Category> entityClass) {
-        super(entityClass);
+    @Override
+    public Class<Category> getEntityClass() {
+        return Category.class;
     }
 }

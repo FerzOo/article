@@ -15,11 +15,10 @@ public class BaseServiceImpl
 
     protected Repository repository;
 
-    public BaseServiceImpl(Class<? extends Repository> repositoryClass,
-                           Class<E> entityClass) {
+    public BaseServiceImpl(Class<? extends Repository> repositoryClass) {
         try {
             this.repository = (Repository) ComponentFactory.
-                    getSingletonObject(repositoryClass, entityClass);
+                    getSingletonObject(repositoryClass);
         } catch (Exception e) {
             ErrorHandler.showMessage(e);
         }

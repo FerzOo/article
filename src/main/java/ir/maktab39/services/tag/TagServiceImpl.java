@@ -8,7 +8,7 @@ import ir.maktab39.repositories.tag.TagRepoImpl;
 public class TagServiceImpl
         extends BaseServiceImpl<Long, Tag, TagRepo> implements TagService {
     public TagServiceImpl() {
-        super(TagRepoImpl.class, Tag.class);
+        super(TagRepoImpl.class);
     }
 
     @Override

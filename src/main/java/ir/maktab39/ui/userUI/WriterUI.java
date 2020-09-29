@@ -1,16 +1,26 @@
 package ir.maktab39.ui.userUI;
 
+import ir.maktab39.ComponentFactory;
 import ir.maktab39.ErrorHandler;
-import ir.maktab39.Repository;
 import ir.maktab39.Session;
 import ir.maktab39.entities.Article;
 import ir.maktab39.entities.Category;
+import ir.maktab39.services.article.ArticleService;
+import ir.maktab39.services.article.ArticleServiceImpl;
+import ir.maktab39.services.category.CategoryService;
+import ir.maktab39.services.category.CategoryServiceImpl;
 
 import java.sql.SQLException;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public class WriterUI extends BaseUI{
-    private Repository repository = Repository.getInstance();
+public class WriterUI extends BaseUI {
+
+    private ArticleService articleService = (ArticleService) ComponentFactory.
+            getSingletonObject(ArticleServiceImpl.class);
+    private CategoryService categoryService = (CategoryService) ComponentFactory.
+            getSingletonObject(CategoryServiceImpl.class);
 
     public void showMenuAndGetCommand() {
         Scanner scanner = new Scanner(System.in);
@@ -63,18 +73,20 @@ public class WriterUI extends BaseUI{
         String entry = scanner.next();
         if (entry.equals("y") && article != null) {
             article.setPublished(true);
-            repository.updateArticle(article);
+            articleService.update(article);
         }
         System.out.println("edit done!");
     }
 
+    private List<Category> getCategories() {
+        return categoryService.findAll();
+    }
 
-    private Map<Long, Category> showCategories() throws SQLException {
-        Map<Long, Category> categories = repository.getCategories();
+    private List<Category> showAndReturnCategories() throws SQLException {
+        List<Category> categories = getCategories();
         System.out.println("categories:");
-        Set<Map.Entry<Long, Category>> entries = categories.entrySet();
-        for (Map.Entry<Long, Category> entry : entries) {
-            System.out.println(entry.getValue());
+        for (Category category : categories) {
+            System.out.println(category);
             System.out.println("------------");
         }
         return categories;
@@ -82,26 +94,28 @@ public class WriterUI extends BaseUI{
 
     private void insertArticle() throws SQLException {
         Scanner scanner = new Scanner(System.in);
-        showCategories();
+        showAndReturnCategories();
         System.out.println("1)choose an category");
         System.out.println("2)enter new category");
         int command = scanner.nextInt();
         if (command == 2) {
             System.out.println("category title:");
+            scanner.nextLine();
             String title = scanner.nextLine();
             System.out.println("category description:");
-            scanner.nextLine();
             String description = scanner.nextLine();
             Category category = new Category();
             category.setTitle(title);
             category.setDescription(description);
-            repository.insertCategory(category);
+            categoryService.save(category);
             System.out.println("category inserted");
         }
-        Map<Long, Category> categories = showCategories();
+        List<Category> categories = showAndReturnCategories();
+        Map<Long, Category> categoryMap = categories.stream()
+                .collect(Collectors.toMap(Category::getId, Function.identity()));
         System.out.println("choose category id");
         long id = scanner.nextLong();
-        Category category = categories.get(id);
+        Category category = categoryMap.get(id);
         System.out.println("title:");
         String title = scanner.next();
         System.out.println("brief:");
@@ -117,12 +131,12 @@ public class WriterUI extends BaseUI{
         article.setAuthor(Session.getUser());
         article.setCategory(category);
         article.setPublished(false);
-        repository.insertArticle(article);
+        articleService.save(article);
         System.out.println("article inserted!");
     }
 
     public List<Article> viewArticles() throws SQLException {
-        List<Article> list = repository.getUserArticles(
+        List<Article> list = articleService.findUserArticles(
                 Session.getUser());
         for (Article article : list) {
             System.out.println("---------------");

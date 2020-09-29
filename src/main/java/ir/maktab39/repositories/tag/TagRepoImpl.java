@@ -9,15 +9,17 @@ import javax.persistence.Query;
 
 public class TagRepoImpl extends BaseRepositoryImpl<Long, Tag> implements TagRepo {
 
-    public TagRepoImpl(Class<Tag> entityClass) {
-        super(entityClass);
+    @Override
+    public Class<Tag> getEntityClass() {
+        return null;
     }
 
     @Override
     public Tag getTag(String title) {
         EntityManager entityManager = getEntityManager();
         Query query = entityManager.createQuery("select o from" +
-                entityClass.getSimpleName() + " o where o.title=:t").setParameter("t", title);
+                getEntityClass().getSimpleName() + " o where o.title=:t").setParameter("t", title);
         return (Tag) query.getSingleResult();
     }
+
 }

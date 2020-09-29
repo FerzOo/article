@@ -8,14 +8,8 @@ import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.List;
 
-public class BaseRepositoryImpl<PK extends Serializable, E>
+public abstract class BaseRepositoryImpl<PK extends Serializable, E>
         implements BaseRepository<PK, E> {
-
-    protected Class<E> entityClass;
-
-    public BaseRepositoryImpl(Class<E> entityClass) {
-        this.entityClass = entityClass;
-    }
 
     protected EntityManager getEntityManager() {
         return Session.getEntityManager();
@@ -51,7 +45,7 @@ public class BaseRepositoryImpl<PK extends Serializable, E>
 
     @Override
     public E find(PK id) {
-        return getEntityManager().find(entityClass, id);
+        return getEntityManager().find(getEntityClass(), id);
     }
 
     @Override
@@ -68,7 +62,7 @@ public class BaseRepositoryImpl<PK extends Serializable, E>
 
     private void removeById0(PK id) {
         Query query = getEntityManager().createQuery
-                ("remove o from " + entityClass.getSimpleName()
+                ("remove o from " + getEntityClass().getSimpleName()
                         + " o where o.id=:id");
         query.setParameter("id", id);
         query.executeUpdate();
@@ -89,7 +83,7 @@ public class BaseRepositoryImpl<PK extends Serializable, E>
     @Override
     public List<E> findAll() {
         Query query = getEntityManager().createQuery
-                ("select o from " + entityClass.getSimpleName() + " o");
+                ("select o from " + getEntityClass().getSimpleName() + " o");
         return query.getResultList();
     }
 }

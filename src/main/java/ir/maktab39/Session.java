@@ -5,6 +5,7 @@ import ir.maktab39.entities.User;
 import javax.persistence.EntityManager;
 
 public class Session {
+
     private static ThreadLocal<User> userThreadLocal = new ThreadLocal<>();
     private static ThreadLocal<EntityManager> entityManagerThreadLocal =
             new ThreadLocal<>();

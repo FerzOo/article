@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface BaseRepository<PK extends Serializable, E> {
 
+    Class<E> getEntityClass();
+
     void startTransaction();
 
     void commit();

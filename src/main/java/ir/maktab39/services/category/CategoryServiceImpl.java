@@ -7,7 +7,8 @@ import ir.maktab39.repositories.category.CategoryRepoImpl;
 
 public class CategoryServiceImpl
         extends BaseServiceImpl<Long, Category, CategoryRepo> implements CategoryService {
+
     public CategoryServiceImpl() {
-        super(CategoryRepoImpl.class, Category.class);
+        super(CategoryRepoImpl.class);
     }
 }

@@ -103,7 +103,7 @@ public class MainUI {
     }
 
     private static void showArticles() throws SQLException {
-        List<Article> articleList = articleService.getArticles();
+        List<Article> articleList = articleService.findAll();
         for (Article article : articleList) {
             System.out.println(article);
             System.out.println("----------------");
@@ -120,8 +120,8 @@ public class MainUI {
         Session.setUser(user);
         Role role = user.getRole();
         String simpleUIClassName = firstCharToUpperCase(role.getTitle());
-        Class uiClass = Class.forName("ir.maktab39.ui.userUI." +
-                simpleUIClassName + "UI");
+        String uiClassPath = "ir.maktab39.ui.userUI." + simpleUIClassName + "UI";
+        Class uiClass = Class.forName(uiClassPath);
         Object uiInstance = uiClass.newInstance();
         Method startMethod = uiClass.getMethod("showMenuAndGetCommand");
         startMethod.invoke(uiInstance);
@@ -133,10 +133,10 @@ public class MainUI {
             return "";
 
         if (str.length() == 1)
-            return str.toLowerCase();
+            return str.toUpperCase();
 
         char[] chArr = str.toCharArray();
-        chArr[0] = Character.toLowerCase(chArr[0]);
+        chArr[0] = Character.toUpperCase(chArr[0]);
 
         return new String(chArr);
     }
