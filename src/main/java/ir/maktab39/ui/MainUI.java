@@ -1,35 +1,24 @@
 package ir.maktab39.ui;
 
 import ir.maktab39.*;
-import ir.maktab39.entities.Article;
 import ir.maktab39.entities.Role;
 import ir.maktab39.entities.User;
-import ir.maktab39.entities.embeddables.Address;
+import ir.maktab39.entities.embeddable.Address;
 import ir.maktab39.exceptions.NotFoundException;
 import ir.maktab39.exceptions.UniqueConstraintException;
-import ir.maktab39.repositories.user.UserRepo;
-import ir.maktab39.repositories.user.UserRepoImpl;
-import ir.maktab39.services.article.ArticleService;
-import ir.maktab39.services.article.ArticleServiceImpl;
 import ir.maktab39.services.role.RoleService;
 import ir.maktab39.services.role.RoleServiceImpl;
-import ir.maktab39.services.tag.TagService;
-import ir.maktab39.services.tag.TagServiceImpl;
 import ir.maktab39.services.user.UserService;
 import ir.maktab39.services.user.UserServiceImpl;
 import ir.maktab39.ui.userUI.BaseUI;
-import ir.maktab39.ui.userUI.WriterUI;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
 
 public class MainUI extends BaseUI {

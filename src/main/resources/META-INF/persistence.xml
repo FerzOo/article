@@ -1,23 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="my-persistence-unit">
-		<description>Hibernate Tips</description>
-		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="my-persistence-unit">
+        <description>Hibernate Tips</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>ir.maktab39.entities.Tag</class>
+        <class>ir.maktab39.entities.Article</class>
+        <class>ir.maktab39.entities.User</class>
+        <class>ir.maktab39.entities.Role</class>
+        <class>ir.maktab39.entities.embeddable.Address</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
-		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
-			<!--<property name="hibernate.generate_statistics" value="true" />-->
-			<!--<property name="hbm2ddl.auto" value="update"/>-->
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/test"/>
-			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="mysql123" />
-			<property name="javax.persistence.schema-generation.database.action" value="update" />
-			<!--<property name="javax.persistence.sql-load-script-source" value="data.sql" />-->
-		</properties>
-	</persistence-unit>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <!--<property name="hibernate.generate_statistics" value="true" />-->
+            <!--<property name="hbm2ddl.auto" value="update"/>-->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/test"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="mysql123"/>
+            <property name="javax.persistence.schema-generation.database.action" value="update"/>
+            <!--<property name="javax.persistence.sql-load-script-source" value="data.sql" />-->
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="my-persistence-unit2">
+        <description>Hibernate Tips</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>ir.maktab39.entities.Category</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <!--<property name="hibernate.generate_statistics" value="true" />-->
+            <!--<property name="hbm2ddl.auto" value="update"/>-->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/test2"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="mysql123"/>
+            <property name="javax.persistence.schema-generation.database.action" value="update"/>
+            <!--<property name="javax.persistence.sql-load-script-source" value="data.sql" />-->
+        </properties>
+    </persistence-unit>
 </persistence>
 

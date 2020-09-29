@@ -20,7 +20,8 @@ public class Article extends BaseEntity<Long> {
     private boolean isPublished;
     @ManyToOne
     private User author;
-    @ManyToOne
+    //    @ManyToOne
+    @Transient
     private Category category;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Tag> tags;

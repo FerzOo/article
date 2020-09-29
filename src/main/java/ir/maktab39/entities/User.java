@@ -1,7 +1,7 @@
 package ir.maktab39.entities;
 
 import ir.maktab39.base.entity.BaseEntity;
-import ir.maktab39.entities.embeddables.Address;
+import ir.maktab39.entities.embeddable.Address;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,7 +17,8 @@ public class User extends BaseEntity<Long> {
     private String password;
     @Embedded
     private Address address;
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = CascadeType.ALL)
+    @Transient
     private Role role;
 
     @Override

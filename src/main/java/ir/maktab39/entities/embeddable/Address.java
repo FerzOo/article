@@ -1,4 +1,4 @@
-package ir.maktab39.entities.embeddables;
+package ir.maktab39.entities.embeddable;
 
 import javax.persistence.Embeddable;
 

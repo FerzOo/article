@@ -45,7 +45,6 @@ public abstract class BaseRepositoryImpl<PK extends Serializable, E>
         } catch (Exception e1) {
             rollback();
         }
-
     }
 
     @Override
@@ -69,7 +68,7 @@ public abstract class BaseRepositoryImpl<PK extends Serializable, E>
         }
     }
 
-    private void removeById0(PK id) {
+    protected void removeById0(PK id) {
         Query query = getEntityManager().createQuery
                 ("delete from " + getEntityClass().getSimpleName()
                         + " o where o.id=:id");
