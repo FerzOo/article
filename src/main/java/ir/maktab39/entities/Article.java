@@ -15,6 +15,8 @@ public class Article extends BaseEntity<Long> {
     private String brief;
     private String content;
     private Date createDate;
+    private Date lastUpdateDate;
+    private Date publishDate;
     private boolean isPublished;
     @ManyToOne
     private User author;
@@ -66,6 +68,22 @@ public class Article extends BaseEntity<Long> {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
     }
 
     public boolean isPublished() {

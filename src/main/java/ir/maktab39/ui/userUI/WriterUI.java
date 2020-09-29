@@ -56,25 +56,25 @@ public class WriterUI extends BaseUI {
     }
 
     private void editArticles() throws SQLException {
-        Scanner scanner = new Scanner(System.in);
-        List<Article> list = viewArticles();
-        System.out.println("choose a article id");
-        long id = scanner.nextLong();
-        Article article = null;
-        for (Article article1 : list) {
-            if (article1.getId() == id) {
-                article = article1;
-                break;
-            }
-        }
-        System.out.println(article);
-        System.out.println("------->");
-        System.out.println("are you want to publish article? y/n");
-        String entry = scanner.next();
-        if (entry.equals("y") && article != null) {
-            article.setPublished(true);
-            articleService.update(article);
-        }
+//        Scanner scanner = new Scanner(System.in);
+//        List<Article> list = viewArticles();
+//        System.out.println("choose a article id");
+//        long id = scanner.nextLong();
+//        Article article = null;
+//        for (Article article1 : list) {
+//            if (article1.getId() == id) {
+//                article = article1;
+//                break;
+//            }
+//        }
+//        System.out.println(article);
+//        System.out.println("------->");
+//        System.out.println("are you want to publish article? y/n");
+//        String entry = scanner.next();
+//        if (entry.equals("y") && article != null) {
+//            article.setPublished(true);
+//            articleService.update(article);
+//        }
         System.out.println("edit done!");
     }
 
