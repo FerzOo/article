@@ -94,45 +94,31 @@ public class WriterUI extends BaseUI {
 
     private void insertArticle() throws SQLException {
         Scanner scanner = new Scanner(System.in);
-        showAndReturnCategories();
-        System.out.println("1)choose an category");
-        System.out.println("2)enter new category");
-        int command = scanner.nextInt();
-        if (command == 2) {
-            System.out.println("category title:");
-            scanner.nextLine();
-            String title = scanner.nextLine();
-            System.out.println("category description:");
-            String description = scanner.nextLine();
-            Category category = new Category();
-            category.setTitle(title);
-            category.setDescription(description);
-            categoryService.save(category);
-            System.out.println("category inserted");
-        }
         List<Category> categories = showAndReturnCategories();
-        Map<Long, Category> categoryMap = categories.stream()
-                .collect(Collectors.toMap(Category::getId, Function.identity()));
-        System.out.println("choose category id");
-        long id = scanner.nextLong();
-        Category category = categoryMap.get(id);
-        System.out.println("title:");
-        String title = scanner.next();
-        System.out.println("brief:");
-        scanner.nextLine();
-        String brief = scanner.nextLine();
-        System.out.println("content:");
-        String content = scanner.nextLine();
-        Article article = new Article();
-        article.setTitle(title);
-        article.setBrief(brief);
-        article.setCreateDate(new Date());
-        article.setContent(content);
-        article.setAuthor(Session.getUser());
-        article.setCategory(category);
-        article.setPublished(false);
-        articleService.save(article);
-        System.out.println("article inserted!");
+        if (categories.size() != 0) {
+            Map<Long, Category> categoryMap = categories.stream()
+                    .collect(Collectors.toMap(Category::getId, Function.identity()));
+            System.out.println("choose category id");
+            long id = scanner.nextLong();
+            Category category = categoryMap.get(id);
+            System.out.println("title:");
+            String title = scanner.next();
+            System.out.println("brief:");
+            scanner.nextLine();
+            String brief = scanner.nextLine();
+            System.out.println("content:");
+            String content = scanner.nextLine();
+            Article article = new Article();
+            article.setTitle(title);
+            article.setBrief(brief);
+            article.setCreateDate(new Date());
+            article.setContent(content);
+            article.setAuthor(Session.getUser());
+            article.setCategory(category);
+            article.setPublished(false);
+            articleService.save(article);
+            System.out.println("article inserted!");
+        } else System.out.println("no category found");
     }
 
     public List<Article> viewArticles() throws SQLException {

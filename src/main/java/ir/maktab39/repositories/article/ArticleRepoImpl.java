@@ -22,4 +22,13 @@ public class ArticleRepoImpl extends BaseRepositoryImpl<Long, Article> implement
                 .setParameter("id", user.getId())
                 .getResultList();
     }
+
+    @Override
+    public List<Article> findArticlesDependsOnPublication(boolean isPublished) {
+        return getEntityManager()
+                .createQuery("select o from Article o where o.isPublished" +
+                        "=:isPublished ")
+                .setParameter("isPublished",isPublished)
+                .getResultList();
+    }
 }

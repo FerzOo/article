@@ -9,4 +9,7 @@ import java.util.List;
 public interface ArticleService extends BaseService<Article, Long> {
 
     List<Article> findUserArticles(User user);
+
+    List<Article> findArticlesDependsOnPublication(boolean isPublished);
+
 }

@@ -26,9 +26,7 @@ public class BaseServiceImpl
 
     @Override
     public void save(E e) {
-        repository.startTransaction();
         repository.save(e);
-        repository.commit();
     }
 
     @Override
@@ -38,16 +36,12 @@ public class BaseServiceImpl
 
     @Override
     public void deleteById(PK id) {
-        repository.startTransaction();
         repository.removeById(id);
-        repository.commit();
     }
 
     @Override
     public void update(E e) {
-        repository.startTransaction();
         repository.update(e);
-        repository.commit();
     }
 
     @Override

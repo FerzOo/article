@@ -16,6 +16,7 @@ import ir.maktab39.services.tag.TagService;
 import ir.maktab39.services.tag.TagServiceImpl;
 import ir.maktab39.services.user.UserService;
 import ir.maktab39.services.user.UserServiceImpl;
+import ir.maktab39.ui.userUI.BaseUI;
 import ir.maktab39.ui.userUI.WriterUI;
 
 import javax.persistence.EntityManager;
@@ -30,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-public class MainUI {
+public class MainUI extends BaseUI {
 
     static {
         try {
@@ -40,18 +41,16 @@ public class MainUI {
         }
     }
 
-    private static Repository repository = Repository.getInstance();
-
-    private static UserService userService = (UserService) ComponentFactory.
+    private UserService userService = (UserService) ComponentFactory.
             getSingletonObject(UserServiceImpl.class);
-    private static ArticleService articleService = (ArticleService) ComponentFactory.
-            getSingletonObject(ArticleServiceImpl.class);
-    private static TagService tagService = (TagService) ComponentFactory.
-            getSingletonObject(TagServiceImpl.class);
-    private static RoleService roleService = (RoleService) ComponentFactory.
+    private RoleService roleService = (RoleService) ComponentFactory.
             getSingletonObject(RoleServiceImpl.class);
 
     public static void main(String[] args) {
+        new MainUI().start();
+    }
+
+    private void start() {
         try {
             EntityManager entityManager = JPAUtility.getEntityManager();
             Session.setEntityManager(entityManager);
@@ -62,7 +61,7 @@ public class MainUI {
         }
     }
 
-    private static void init() {
+    private void init() {
         try {
             Role admin = new Role();
             admin.setTitle("admin");
@@ -75,8 +74,7 @@ public class MainUI {
         }
     }
 
-    private static void showMenuAndGetCommand() throws SQLException {
-        repository.startConnection();
+    private void showMenuAndGetCommand() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         int command;
         while (true) {
@@ -93,7 +91,7 @@ public class MainUI {
                         register();
                         break;
                     case 3:
-                        showArticles();
+                        showAndReturnArticlesDependsOnPublication(true);
                         break;
                 }
             } catch (Exception e) {
@@ -102,15 +100,8 @@ public class MainUI {
         }
     }
 
-    private static void showArticles() throws SQLException {
-        List<Article> articleList = articleService.findAll();
-        for (Article article : articleList) {
-            System.out.println(article);
-            System.out.println("----------------");
-        }
-    }
 
-    private static void login() throws NotFoundException, SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    private void login() throws NotFoundException, SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("username:");
         String username = scanner.next();
@@ -127,7 +118,7 @@ public class MainUI {
         startMethod.invoke(uiInstance);
     }
 
-    private static String firstCharToUpperCase(String str) {
+    private String firstCharToUpperCase(String str) {
 
         if (str == null || str.length() == 0)
             return "";
@@ -145,7 +136,7 @@ public class MainUI {
         Session.destroy();
     }
 
-    private static void register() throws SQLException, UniqueConstraintException, ParseException {
+    private void register() throws SQLException, UniqueConstraintException, ParseException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("username:");
         String username = scanner.next();

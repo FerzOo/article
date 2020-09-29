@@ -17,6 +17,15 @@ public class User extends BaseEntity<Long> {
     @ManyToOne(cascade = CascadeType.ALL)
     private Role role;
 
+    @Override
+    public String toString() {
+        return "id=" + id +
+                "\n" + "username=" + username +
+                "\n" + "nationalCode=" + nationalCode +
+                "\n" + "birthday=" + birthday +
+                "\n" + "author=" + (role != null ? role.getTitle() : "");
+    }
+
     public String getUsername() {
         return username;
     }

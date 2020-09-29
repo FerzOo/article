@@ -9,4 +9,6 @@ import java.util.List;
 public interface ArticleRepo extends BaseRepository<Long, Article> {
 
     List<Article> findUserArticles(User user);
+
+    List<Article> findArticlesDependsOnPublication(boolean isPublished);
 }

@@ -19,4 +19,9 @@ public class ArticleServiceImpl
     public List<Article> findUserArticles(User user) {
         return repository.findUserArticles(user);
     }
+
+    @Override
+    public List<Article> findArticlesDependsOnPublication(boolean isPublished) {
+        return repository.findArticlesDependsOnPublication(isPublished);
+    }
 }

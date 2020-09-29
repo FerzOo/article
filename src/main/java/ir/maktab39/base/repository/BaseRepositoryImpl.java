@@ -33,14 +33,19 @@ public abstract class BaseRepositoryImpl<PK extends Serializable, E>
 
     @Override
     public void save(E e) {
-        EntityManager entityManager = getEntityManager();
-        if (entityManager.isJoinedToTransaction())
-            entityManager.persist(e);
-        else {
-            startTransaction();
-            entityManager.persist(e);
-            commit();
+        try {
+            EntityManager entityManager = getEntityManager();
+            if (entityManager.isJoinedToTransaction())
+                entityManager.persist(e);
+            else {
+                startTransaction();
+                entityManager.persist(e);
+                commit();
+            }
+        } catch (Exception e1) {
+            rollback();
         }
+
     }
 
     @Override
@@ -50,19 +55,23 @@ public abstract class BaseRepositoryImpl<PK extends Serializable, E>
 
     @Override
     public void removeById(PK id) {
-        EntityManager entityManager = getEntityManager();
-        if (entityManager.isJoinedToTransaction())
-            removeById0(id);
-        else {
-            startTransaction();
-            removeById0(id);
-            commit();
+        try {
+            EntityManager entityManager = getEntityManager();
+            if (entityManager.isJoinedToTransaction())
+                removeById0(id);
+            else {
+                startTransaction();
+                removeById0(id);
+                commit();
+            }
+        } catch (Exception e) {
+            rollback();
         }
     }
 
     private void removeById0(PK id) {
         Query query = getEntityManager().createQuery
-                ("remove o from " + getEntityClass().getSimpleName()
+                ("delete from " + getEntityClass().getSimpleName()
                         + " o where o.id=:id");
         query.setParameter("id", id);
         query.executeUpdate();
@@ -70,13 +79,17 @@ public abstract class BaseRepositoryImpl<PK extends Serializable, E>
 
     @Override
     public void update(E e) {
-        EntityManager entityManager = getEntityManager();
-        if (entityManager.isJoinedToTransaction())
-            entityManager.merge(e);
-        else {
-            startTransaction();
-            entityManager.merge(e);
-            commit();
+        try {
+            EntityManager entityManager = getEntityManager();
+            if (entityManager.isJoinedToTransaction())
+                entityManager.merge(e);
+            else {
+                startTransaction();
+                entityManager.merge(e);
+                commit();
+            }
+        }catch (Exception e1){
+            rollback();
         }
     }
 

@@ -10,6 +10,12 @@ public class Role extends BaseEntity<Long> {
     @Column(unique = true)
     private String title;
 
+    @Override
+    public String toString() {
+        return "id=" + id +
+                "\n" + "title=" + title;
+    }
+
     public String getTitle() {
         return title;
     }
