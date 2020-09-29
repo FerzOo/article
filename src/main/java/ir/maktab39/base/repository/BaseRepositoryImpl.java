@@ -110,7 +110,7 @@ public abstract class BaseRepositoryImpl<PK extends Serializable, E>
     }
 
     @Override
-    public List findAll(Function<E, ?> function) {
+    public <R> List<R> findAll(Function<E, R> function) {
         List<E> list = findAll0();
         return list.stream().map(function)
                 .collect(Collectors.toList());

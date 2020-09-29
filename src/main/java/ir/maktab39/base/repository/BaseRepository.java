@@ -27,5 +27,5 @@ public interface BaseRepository<PK extends Serializable, E> {
 
     List<E> findAll(Predicate<E> predicate);
 
-    List findAll(Function<E, ?> function);
+    <R> List<R> findAll(Function<E, R> function);
 }
