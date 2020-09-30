@@ -8,6 +8,12 @@ import java.util.List;
 
 public interface ArticleRepo extends BaseRepository<Long, Article> {
 
+    void startTransaction2();
+
+    void commit2();
+
+    void rollback2();
+
     List<Article> findUserArticles(User user);
 
     List<Article> findArticlesDependsOnPublication(boolean isPublished);

@@ -6,14 +6,25 @@ import javax.persistence.Persistence;
 
 public class JPAUtility {
     private static final EntityManagerFactory emFactory;
+    private static final EntityManagerFactory emFactory2;
+
     static {
         emFactory = Persistence.
                 createEntityManagerFactory("my-persistence-unit");
+        emFactory2 = Persistence.
+                createEntityManagerFactory("my-persistence-unit2");
     }
-    public static EntityManager getEntityManager(){
+
+    public static EntityManager getEntityManager() {
         return emFactory.createEntityManager();
     }
-    public static void close(){
+
+    public static EntityManager getEntityManager2() {
+        return emFactory2.createEntityManager();
+    }
+
+    public static void close() {
         emFactory.close();
+        emFactory2.close();
     }
 }

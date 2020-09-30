@@ -20,8 +20,10 @@ public class Article extends BaseEntity<Long> {
     private boolean isPublished;
     @ManyToOne
     private User author;
-    @ManyToOne
+    //    @ManyToOne
+    @Transient
     private Category category;
+    private Long categoryId;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Tag> tags;
 
@@ -108,6 +110,14 @@ public class Article extends BaseEntity<Long> {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Set<Tag> getTags() {

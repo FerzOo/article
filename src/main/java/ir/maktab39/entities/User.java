@@ -1,7 +1,7 @@
 package ir.maktab39.entities;
 
 import ir.maktab39.base.entity.BaseEntity;
-import ir.maktab39.entities.embeddables.Address;
+import ir.maktab39.entities.embeddable.Address;
 
 import javax.persistence.*;
 import java.util.Date;

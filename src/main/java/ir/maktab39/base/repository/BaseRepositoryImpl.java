@@ -15,9 +15,7 @@ import java.util.stream.Collectors;
 public abstract class BaseRepositoryImpl<PK extends Serializable, E>
         implements BaseRepository<PK, E> {
 
-    protected EntityManager getEntityManager() {
-        return Session.getEntityManager();
-    }
+    protected abstract EntityManager getEntityManager();
 
     @Override
     public void startTransaction() {
@@ -49,7 +47,6 @@ public abstract class BaseRepositoryImpl<PK extends Serializable, E>
         } catch (Exception e1) {
             rollback();
         }
-
     }
 
     @Override
@@ -73,7 +70,7 @@ public abstract class BaseRepositoryImpl<PK extends Serializable, E>
         }
     }
 
-    private void removeById0(PK id) {
+    protected void removeById0(PK id) {
         Query query = getEntityManager().createQuery
                 ("delete from " + getEntityClass().getSimpleName()
                         + " o where o.id=:id");
