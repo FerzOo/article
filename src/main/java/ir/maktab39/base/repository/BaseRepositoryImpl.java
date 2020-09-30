@@ -11,9 +11,7 @@ import java.util.List;
 public abstract class BaseRepositoryImpl<PK extends Serializable, E>
         implements BaseRepository<PK, E> {
 
-    protected EntityManager getEntityManager() {
-        return Session.getEntityManager();
-    }
+    protected abstract EntityManager getEntityManager();
 
     @Override
     public void startTransaction() {

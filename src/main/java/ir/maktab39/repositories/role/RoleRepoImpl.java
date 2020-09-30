@@ -1,5 +1,6 @@
 package ir.maktab39.repositories.role;
 
+import ir.maktab39.Session;
 import ir.maktab39.base.repository.BaseRepositoryImpl;
 import ir.maktab39.entities.Role;
 
@@ -11,6 +12,11 @@ public class RoleRepoImpl extends BaseRepositoryImpl<Long, Role> implements Role
     @Override
     public Class<Role> getEntityClass() {
         return Role.class;
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return Session.getEntityManager();
     }
 
     @Override

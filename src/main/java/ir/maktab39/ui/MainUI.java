@@ -43,7 +43,9 @@ public class MainUI extends BaseUI {
     private void start() {
         try {
             EntityManager entityManager = JPAUtility.getEntityManager();
+            EntityManager entityManager2 = JPAUtility.getEntityManager2();
             Session.setEntityManager(entityManager);
+            Session.setEntityManager2(entityManager2);
             init();
             showMenuAndGetCommand();
         } catch (Exception e) {
@@ -55,10 +57,18 @@ public class MainUI extends BaseUI {
         try {
             Role admin = new Role();
             admin.setTitle("admin");
+            User user = new User();
+            user.setUsername("ahmad");
+            user.setPassword("333");
+            user.setRole(admin);
             Role writer = new Role();
+            User user2 = new User();
+            user2.setUsername("ali");
+            user2.setPassword("111");
+            user2.setRole(writer);
             writer.setTitle("writer");
-            roleService.save(admin);
-            roleService.save(writer);
+            userService.save(user);
+            userService.save(user2);
         } catch (Exception e) {
             ErrorHandler.showMessage(e);
         }

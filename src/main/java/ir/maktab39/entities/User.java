@@ -17,8 +17,7 @@ public class User extends BaseEntity<Long> {
     private String password;
     @Embedded
     private Address address;
-//    @ManyToOne(cascade = CascadeType.ALL)
-    @Transient
+    @ManyToOne(cascade = CascadeType.ALL)
     private Role role;
 
     @Override
