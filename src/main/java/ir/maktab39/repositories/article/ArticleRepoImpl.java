@@ -2,11 +2,16 @@ package ir.maktab39.repositories.article;
 
 import ir.maktab39.Session;
 import ir.maktab39.base.repository.BaseRepositoryImpl;
+import ir.maktab39.dto.ArticleSearchDto;
 import ir.maktab39.entities.Article;
 import ir.maktab39.entities.Category;
 import ir.maktab39.entities.User;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +49,43 @@ public class ArticleRepoImpl extends BaseRepositoryImpl<Long, Article> implement
     public void rollback2() {
         getEntityManager2().getTransaction().rollback();
     }
+
+//    public List<Article> search(ArticleSearchDto dto) {
+//        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+//        CriteriaQuery<Article> cq = cb.createQuery(Article.class);
+//        Root<Article> root = cq.from(Article.class);
+//
+//    }
+//
+//    private List<Predicate> setWhereClauses(ArticleSearchDto dto,
+//                                            List<Predicate> prList,
+//                                            CriteriaBuilder cb,
+//                                            Root<Article> root) {
+//        setStringPredicateToPrList("title",dto.getTitle(), prList, cb, root);
+//        setStringPredicateToPrList("brief",dto.getTitle(), prList, cb, root);
+//        setStringPredicateToPrList("content",dto.getTitle(), prList, cb, root);
+//    }
+
+    private void setStringPredicateToPrList(String fieldName, String value,
+                                   List<Predicate> prList, CriteriaBuilder cb,
+                                   Root<Article> root) {
+        if (value == null || value.isEmpty())
+            return;
+        prList.add(
+                cb.like(root.get(fieldName), "%" + value.trim() + "%")
+        );
+    }
+
+    private void setBooleanPredicateToPrList(String fieldName, Boolean flag,
+                                   List<Predicate> prList, CriteriaBuilder cb,
+                                   Root<Article> root) {
+        if (flag == null)
+            return;
+        prList.add(
+                cb.equal(root.get(fieldName), flag)
+        );
+    }
+
 
     @Override
     public List<Article> findUserArticles(User user) {
