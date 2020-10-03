@@ -4,15 +4,15 @@ import ir.maktab39.Session;
 import ir.maktab39.base.repository.BaseRepositoryImpl;
 import ir.maktab39.dto.ArticleSearchDto;
 import ir.maktab39.entities.Article;
+import ir.maktab39.entities.Article_;
 import ir.maktab39.entities.Category;
 import ir.maktab39.entities.User;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import javax.persistence.metamodel.SingularAttribute;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -50,39 +50,62 @@ public class ArticleRepoImpl extends BaseRepositoryImpl<Long, Article> implement
         getEntityManager2().getTransaction().rollback();
     }
 
-//    public List<Article> search(ArticleSearchDto dto) {
-//        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-//        CriteriaQuery<Article> cq = cb.createQuery(Article.class);
-//        Root<Article> root = cq.from(Article.class);
-//
-//    }
-//
-//    private List<Predicate> setWhereClauses(ArticleSearchDto dto,
-//                                            List<Predicate> prList,
-//                                            CriteriaBuilder cb,
-//                                            Root<Article> root) {
-//        setStringPredicateToPrList("title",dto.getTitle(), prList, cb, root);
-//        setStringPredicateToPrList("brief",dto.getTitle(), prList, cb, root);
-//        setStringPredicateToPrList("content",dto.getTitle(), prList, cb, root);
-//    }
+    public List<Article> search(ArticleSearchDto dto) {
+        EntityManager em = getEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Article> cq = cb.createQuery(Article.class);
+        Root<Article> root = cq.from(Article.class);
+        List<Predicate> predicates = new ArrayList<>();
+        Map<ParameterExpression, Object> parValMp = new HashMap<>();
+        setWhereClauses(dto, predicates, parValMp, cb, root);
+        cq.where(cb.and(predicates.toArray(new Predicate[0])));
+        TypedQuery<Article> query = em.createQuery(cq);
+        for (Map.Entry<ParameterExpression, Object> entry : parValMp.entrySet()) {
+            query.setParameter(entry.getKey(), entry.getValue());
+        }
+        return query.getResultList();
+    }
 
-    private void setStringPredicateToPrList(String fieldName, String value,
-                                   List<Predicate> prList, CriteriaBuilder cb,
-                                   Root<Article> root) {
+    private void setWhereClauses
+            (ArticleSearchDto dto,
+             List<Predicate> prList,
+             Map<ParameterExpression, Object> parValMp,
+             CriteriaBuilder cb,
+             Root<Article> root) {
+        setStringPredicateToPrList
+                (Article_.title, dto.getTitle(), prList, parValMp, cb, root);
+        setStringPredicateToPrList
+                (Article_.brief, dto.getBrief(), prList, parValMp, cb, root);
+        setStringPredicateToPrList
+                (Article_.content, dto.getContent(), prList, parValMp, cb, root);
+        setBooleanPredicateToPrList
+                (Article_.isPublished, dto.isPublished(), prList, parValMp, cb, root);
+
+    }
+
+    private void setStringPredicateToPrList
+            (SingularAttribute<Article, String> fieldName, String value,
+             List<Predicate> prList, Map<ParameterExpression, Object> parValMp,
+             CriteriaBuilder cb, Root<Article> root) {
         if (value == null || value.isEmpty())
             return;
+        ParameterExpression<String> param = cb.parameter(String.class);
+        parValMp.put(param, "%" + value + "%");
         prList.add(
-                cb.like(root.get(fieldName), "%" + value.trim() + "%")
+                cb.like(root.get(fieldName), param)
         );
     }
 
-    private void setBooleanPredicateToPrList(String fieldName, Boolean flag,
-                                   List<Predicate> prList, CriteriaBuilder cb,
-                                   Root<Article> root) {
+    private void setBooleanPredicateToPrList
+            (SingularAttribute<Article, Boolean> fieldName, Boolean flag,
+             List<Predicate> prList, Map<ParameterExpression, Object> parValMp,
+             CriteriaBuilder cb, Root<Article> root) {
         if (flag == null)
             return;
+        ParameterExpression<Boolean> param = cb.parameter(Boolean.class);
+        parValMp.put(param, flag);
         prList.add(
-                cb.equal(root.get(fieldName), flag)
+                cb.equal(root.get(fieldName), param)
         );
     }
 

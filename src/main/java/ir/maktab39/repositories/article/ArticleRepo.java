@@ -1,6 +1,7 @@
 package ir.maktab39.repositories.article;
 
 import ir.maktab39.base.repository.BaseRepository;
+import ir.maktab39.dto.ArticleSearchDto;
 import ir.maktab39.entities.Article;
 import ir.maktab39.entities.User;
 
@@ -14,7 +15,10 @@ public interface ArticleRepo extends BaseRepository<Long, Article> {
 
     void rollback2();
 
+    public List<Article> search(ArticleSearchDto dto);
+
     List<Article> findUserArticles(User user);
 
     List<Article> findArticlesDependsOnPublication(boolean isPublished);
+
 }

@@ -1,6 +1,7 @@
 package ir.maktab39.ui;
 
 import ir.maktab39.*;
+import ir.maktab39.dto.ArticleSearchDto;
 import ir.maktab39.dto.UserInfo;
 import ir.maktab39.entities.Article;
 import ir.maktab39.entities.Role;
@@ -8,6 +9,8 @@ import ir.maktab39.entities.User;
 import ir.maktab39.entities.embeddable.Address;
 import ir.maktab39.exceptions.NotFoundException;
 import ir.maktab39.exceptions.UniqueConstraintException;
+import ir.maktab39.services.article.ArticleService;
+import ir.maktab39.services.article.ArticleServiceImpl;
 import ir.maktab39.services.role.RoleService;
 import ir.maktab39.services.role.RoleServiceImpl;
 import ir.maktab39.services.user.UserService;
@@ -42,6 +45,8 @@ public class MainUI extends BaseUI {
             getSingletonObject(UserServiceImpl.class);
     private RoleService roleService = (RoleService) ComponentFactory.
             getSingletonObject(RoleServiceImpl.class);
+    private ArticleService articleService = (ArticleService) ComponentFactory.
+            getSingletonObject(ArticleServiceImpl.class);
 
     public static void main(String[] args) {
         new MainUI().start();
@@ -91,6 +96,7 @@ public class MainUI extends BaseUI {
                 System.out.println("3)view articles");
                 System.out.println("4)users info");
                 System.out.println("5)admin users");
+                System.out.println("6)search By criteria and dto");
                 command = scanner.nextInt();
                 switch (command) {
                     case 1:
@@ -115,6 +121,13 @@ public class MainUI extends BaseUI {
                         Predicate<User> predicate =
                                 (a) -> a.getRole().getTitle().equals("admin");
                         showAdminUsers(predicate);
+                        break;
+                    case 6:
+                        ArticleSearchDto dto = new ArticleSearchDto();
+                        dto.setTitle("sa");
+                        dto.setPublished(false);
+                        List<Article> articles = articleService.search(dto);
+                        showEntity(articles);
                         break;
                 }
             } catch (Exception e) {
